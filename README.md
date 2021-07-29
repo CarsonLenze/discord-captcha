@@ -12,7 +12,7 @@ Then ...
 const Captcha = require('discord-button-captcha')
 
 const captcha = new Captcha(client, {
-    roleID: "869659381040574515",
-    channelID: "869671043650957312",
+    roleID: "Role ID Here",
+    channelID: "Text Channel ID Here",
 });
 ```

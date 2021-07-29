@@ -1,6 +1,6 @@
 {
   "name": "discord-button-captcha",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "description": "Have your users verify with a captcha using the new discord buttons",
   "main": "index.js",
   "scripts": {

@@ -1,6 +1,6 @@
 const chalk = require('chalk')
 const axios = require('axios');
-const { MessageAttachment } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 class Captcha {
   constructor(client, options) {
@@ -67,11 +67,16 @@ class Captcha {
 
             const response = await axios.default.get('https://api.no-api-key.com/api/v2/captcha');
 
-            let attach = new MessageAttachment(response.data.captcha, "captcha.png");
+              const Embed1 = new MessageEmbed()
+              .setDescription('Verification failed! Please try again.')
+	              .setImage(response.data.captcha);
 
-            if (trys > 0) button.reply.edit({ content: "Verification failed! Please try again.", files: [attach], ephemeral: true })
+            if (trys > 0) button.reply.edit({ embed: Embed1, content: null, ephemeral: true})
 
-            if (trys == 0) button.reply.send(attach, true)
+            const Embed = new MessageEmbed()
+	              .setImage(response.data.captcha);
+
+            if (trys == 0) await button.reply.send({ embed: Embed, content: null, ephemeral: true})
 
             const filter = m => m.author.id === button.clicker.member.id;
 
