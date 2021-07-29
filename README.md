@@ -4,12 +4,12 @@ Have your users verify with a captcha using the new discord buttons
 
 # Installation
 
-`npm i discord-captcha`
+`npm i discord-button-captcha`
 
 Then ...
 
 ```
-const Captcha = require('discord-captcha')
+const Captcha = require('discord-button-captcha')
 
 const captcha = new Captcha(client, {
     roleID: "869659381040574515",
