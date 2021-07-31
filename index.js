@@ -24,7 +24,7 @@ class Captcha {
 
       const Messages = await Channel.messages.fetch({ limit: 100 });
 
-      if (1 < messages.size) return console.log('\x1b[93mWarning\x1b[0m There are messages in the channel. Please delete them before running.');
+      if (1 < Messages.size) return console.log('\x1b[93mWarning\x1b[0m There are messages in the channel. Please delete them before running.');
 
       if (Messages.first()) {
         if (!Messages.first().author.bot) return console.log('\x1b[93mWarning\x1b[0m There are messages in the channel. Please delete them before running.');
@@ -40,7 +40,7 @@ class Captcha {
             "title": 'Verification',
             "type": 'rich',
             "description": 'Press Verify to gain access to the rest of the server!',
-            "color": 39423,
+            "color": 5793266,
           }
         }).catch(err => {
           console.log("\x1b[31mError\x1b[0m I can not send messages in the verifiecation channel!");
