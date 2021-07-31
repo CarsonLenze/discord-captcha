@@ -1,4 +1,3 @@
-const chalk = require('chalk')
 const axios = require('axios');
 const { MessageEmbed } = require('discord.js');
 
@@ -11,45 +10,43 @@ class Captcha {
 
     client.on('ready', async () => {
 
-      const error = chalk.bold.red;
-      const warning = chalk.keyword('orange');
+      if (!options.channelID) return console.log('\x1b[31mError\x1b[0m You did not provide a channel ID!');
 
-      if (!options.channelID) return console.log(error('Error'), `You did not provide a channel ID!`)
+      if (!options.roleID) return console.log('\x1b[31mError\x1b[0m You did not provide a role ID!');
 
-      if (!options.roleID) return console.log(error('Error'), `You did not provide a role ID!`)
+      const Channel = client.channels.cache.find(channel => channel.id === options.channelID);
 
-      const Channel = client.channels.cache.find(channel => channel.id === options.channelID)
-
-      if (!Channel) return console.log(warning('Warning'), `The channel ${options.channelID} does not exist or I do not have perms to see it.`);
+      if (!Channel) return console.log('\x1b[93mWarning\x1b[0m The channel ' + options.channelID + ' does not exist or I do not have perms to see it.');
 
       const Role = Channel.guild.roles.cache.find(role => role.id === options.roleID);
 
-      if (!Role) return console.log(warning('Warning'), `The role ${options.roleID} does not exist.`);
+      if (!Role) return console.log('\x1b[93mWarning\x1b[0m The role ' + options.roleID + ' does not exist.');
 
-      const messages = await Channel.messages.fetch({ limit: 100 })
+      const Messages = await Channel.messages.fetch({ limit: 100 });
 
-      if (1 < messages.size) return console.log(warning('Warning'), `There are messages in the channel. Please delete them before running.`);
+      if (1 < messages.size) return console.log('\x1b[93mWarning\x1b[0m There are messages in the channel. Please delete them before running.');
 
-      if (messages.first()) {
-        if (!messages.first().author.bot) return console.log(warning('Warning'), `There are messages in the channel. Please delete them before running.`);
+      if (Messages.first()) {
+        if (!Messages.first().author.bot) return console.log('\x1b[93mWarning\x1b[0m There are messages in the channel. Please delete them before running.');
       } else {
         Channel.send('', {
           button: {
             "type": 2,
             "style": 1,
-            "label": "Verify",
+            "label": 'Verify',
             "disabled": false,
-            "custom_id": "Verify_Button"
+            "custom_id": 'Verify_Button'
           }, embed: {
-            "title": "Verification",
-            "type": "rich",
-            "description": "Press Verify to gain access to the rest of the server!",
+            "title": 'Verification',
+            "type": 'rich',
+            "description": 'Press Verify to gain access to the rest of the server!',
             "color": 39423,
           }
         }).catch(err => {
-          console.log(error('Error'), `I can not send messages in the verifiecation channel!`)
+          console.log("\x1b[31mError\x1b[0m I can not send messages in the verifiecation channel!");
         })
       }
+      
       client.on('message', message => {
         if (message.channel.id === options.channelID) {
           if (message.author.bot) return;
@@ -67,11 +64,11 @@ class Captcha {
 
             const response = await axios.default.get('https://api.no-api-key.com/api/v2/captcha');
 
-              const Embed1 = new MessageEmbed()
+              const Failed = new MessageEmbed()
               .setDescription('Verification failed! Please try again.')
-	              .setImage(response.data.captcha);
+	            .setImage(response.data.captcha);
 
-            if (trys > 0) button.reply.edit({ embed: Embed1, content: null, ephemeral: true})
+            if (trys > 0) button.reply.edit({ embed: Failed, content: null, ephemeral: true})
 
             const Embed = new MessageEmbed()
 	              .setImage(response.data.captcha);
@@ -91,7 +88,7 @@ class Captcha {
                 if (ans == true) {
 
                   if (!button.clicker.member.manageable) {
-                    console.log(warning('Warning'), `I do not have permission to give users the verified role.`)
+                    console.log('\x1b[93mWarning\x1b[0m I do not have permission to give users the verified role.')
                     return button.reply.edit(`I dont not have permission to give you <@&${options.roleID}>`, true)
                   }
                   button.clicker.member.roles.add(options.roleID).catch(err => { })
