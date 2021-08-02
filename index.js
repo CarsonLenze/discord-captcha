@@ -1,10 +1,6 @@
 const axios = require('axios');
-const {
-    MessageEmbed
-} = require('discord.js');
-const {
-    EventEmitter
-} = require('events');
+const { MessageEmbed } = require('discord.js');
+const { EventEmitter } = require('events');
 
 class Captcha extends EventEmitter {
     Captcha_Emit = this
