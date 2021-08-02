@@ -99,7 +99,7 @@ class Captcha extends EventEmitter {
                             ephemeral: true
                         })
 
-                        const filter = m => m.author.id === button.clicker.member.id;
+                        const filter = m => m.author.id === button.clicker.id;
 
                         const collecter = button.channel.createMessageCollector(filter, {
                             max: 1
